@@ -1,0 +1,13 @@
+/.idea
+
+venv
+play.py
+
+*.pyc
+/pyflow/build/lib
+/build
+/dist
+/liteflow.egg-info
+/.vs/pyflow/v15/*.suo
+/pyflow
+/.vscode
