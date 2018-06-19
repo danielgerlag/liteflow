@@ -13,6 +13,7 @@ LiteFlow is a Python library for running workflows.  Think: long running process
 	* [If condition](#if-condition)
 * [Host](#host)
 * [Persistence](#persistence)
+* [Multi-node clusters](#multi-node-clusters)
 * [Samples](#samples)
 
 ## Basic Concepts
@@ -57,7 +58,7 @@ class MyWorkflow(Workflow):
             .then(Goodbye)
 
 ```
-The  id and version properties are used by the workflow host to identify a workflow definition.
+The `id` and `version` properties are used by the workflow host to identify a workflow definition.
 
 Each running workflow is persisted to the chosen persistence provider between each step, where it can be picked up at a later point in time to continue execution.  The outcome result of your step can instruct the workflow host to defer further execution of the workflow until a future point in time or in response to an external event.
 
@@ -83,6 +84,7 @@ class AddNumbers(StepBody):
         return ExecutionResult.next()
 
 
+#A class to hold workflow wide data
 class MyData:
     def __init__(self):
         self.value1 = 0
@@ -209,7 +211,30 @@ wid = host.start_workflow("MyWorkflow", 1, None)
 
 ## Persistence
 
-todo
+Since workflows are typically long running processes, they will need to be persisted to storage between steps.
+There are several persistence providers available as separate packages.
+
+* Memory Persistence Provider *(Default provider, for demo and testing purposes)*
+* [MongoDB](https://github.com/danielgerlag/liteflow/tree/master/providers/mongodb)
+* *(more to come soon...)*
+
+## Multi-node clusters
+
+By default, the WorkflowHost service will run as a single node using the built-in queue and locking providers for a single node configuration.  Should you wish to run a multi-node cluster, you will need to configure an external queueing mechanism and a distributed lock manager to co-ordinate the cluster.  These are the providers that are currently available.
+
+#### Queue Providers
+
+* SingleNodeQueueProvider *(Default built-in provider)*
+* [Azure](https://github.com/danielgerlag/liteflow/tree/master/providers/azure)
+* RabbitMQ *(coming soon...)*
+
+
+#### Distributed lock managers
+
+* LocalLockProvider *(Default built-in provider)*
+* [Azure](https://github.com/danielgerlag/liteflow/tree/master/providers/azure)
+* Redis Redlock *(coming soon...)*
+
 
 ## Samples
 
@@ -224,3 +249,14 @@ todo
 * [If condition](https://github.com/danielgerlag/liteflow/blob/master/samples/05-if.py)
 
 * [While loop](https://github.com/danielgerlag/liteflow/blob/master/samples/06-while.py)
+
+
+## Authors
+
+* **Daniel Gerlag** - *Initial work*
+
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+
