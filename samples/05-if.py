@@ -1,7 +1,4 @@
-import logging
-from liteflow.core.models import *
-from liteflow.core.builders import *
-from liteflow.core import configure_workflow_host
+from liteflow.core import *
 
 
 class Hello(StepBody):
@@ -10,16 +7,23 @@ class Hello(StepBody):
         return ExecutionResult.next()
 
 
-class Explode(StepBody):
+class DoStuff(StepBody):
+
     def run(self, context: StepExecutionContext) -> ExecutionResult:
-        print(f"exploding...")
-        raise RuntimeError()
+        print(f"doing stuff")
+        return ExecutionResult.next()
 
 
 class Goodbye(StepBody):
     def run(self, context: StepExecutionContext) -> ExecutionResult:
-        print("Goodbye")
+        print("goodbye")
         return ExecutionResult.next()
+
+
+class MyData:
+
+    def __init__(self):
+        self.value1 = 0
 
 
 class MyWorkflow(Workflow):
@@ -33,8 +37,9 @@ class MyWorkflow(Workflow):
     def build(self, builder: WorkflowBuilder):
         builder\
             .start_with(Hello)\
-            .then(Explode)\
-                .on_error(WorkflowStep.SUSPEND)\
+            .if_(lambda data, context: data.value1 > 3)\
+                .do(lambda x:\
+                    x.start_with(DoStuff))\
             .then(Goodbye)
 
 
@@ -42,7 +47,9 @@ host = configure_workflow_host()
 host.register_workflow(MyWorkflow())
 host.start()
 
-wid = host.start_workflow("MyWorkflow", 1, None)
+data = MyData()
+data.value1 = 4
+wid = host.start_workflow("MyWorkflow", 1, data)
 
 input()
 host.stop()
