@@ -2,7 +2,7 @@
 
 LiteFlow is a Python library for running workflows.  Think: long running processes with multiple tasks that need to track state.  It supports pluggable persistence and concurrency providers to allow for multi-node clusters.
 
-
+* [Installation](#installation)
 * [Basic Concepts](#basic-concepts)
 	* [Steps](#steps)
 	* [Passing data between steps](#passing-data-between-steps)
@@ -15,6 +15,15 @@ LiteFlow is a Python library for running workflows.  Think: long running process
 * [Persistence](#persistence)
 * [Multi-node clusters](#multi-node-clusters)
 * [Samples](#samples)
+
+## Installation
+
+Install the "liteflow.core" package
+
+```
+> pip install liteflow.core
+```
+
 
 ## Basic Concepts
 
