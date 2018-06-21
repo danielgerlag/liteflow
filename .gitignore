@@ -17,6 +17,6 @@ play.py
 
 **/dist/*.*
 
-core/build/lib/liteflow/core/*.*
-providers/azure/build/lib/liteflow/providers/azure/*.*
-providers/mongodb/build/lib/liteflow/providers/mongo/*.*
+core/build/lib/liteflow/core/**/*
+providers/azure/build/lib/liteflow/providers/azure/**/*
+providers/mongodb/build/lib/liteflow/providers/mongo/**/*

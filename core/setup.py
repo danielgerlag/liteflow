@@ -5,7 +5,7 @@ with open("readme.md", "r") as fh:
 
 setup(
     name='liteflow.core',
-    version='0.2',
+    version='0.3',
     description='Workflow library with pluggable persistence and scale out support',
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -13,7 +13,14 @@ setup(
     author_email='daniel@gerlag.ca',
     license='MIT',
     namespace_packages=['liteflow'],
-    packages=['liteflow.core'],
+    packages=[
+        'liteflow.core',
+        'liteflow.core.abstractions',
+        'liteflow.core.builders',
+        'liteflow.core.models',
+        'liteflow.core.primitives',
+        'liteflow.core.services'
+    ],
     zip_safe=False,
     install_requires=[
         'python-interface>=1.4.0'
