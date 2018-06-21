@@ -9,9 +9,14 @@ play.py
 /dist
 /liteflow.egg-info
 /.vs/pyflow/v15/*.suo
-/pyflow
 /.vscode
 /core/liteflow.core.egg-info
 /providers/azure/liteflow.providers.azure.egg-info
 /providers/mongodb/liteflow.providers.mongo.egg-info
 /core/liteflow/core/*.lock
+
+**/dist/*.*
+
+core/build/lib/liteflow/core/*.*
+providers/azure/build/lib/liteflow/providers/azure/*.*
+providers/mongodb/build/lib/liteflow/providers/mongo/*.*
