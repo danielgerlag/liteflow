@@ -1,5 +1,5 @@
 from interface import Interface
-from ..models import *
+from liteflow.core.models import *
 
 class IPersistenceProvider(Interface):
 

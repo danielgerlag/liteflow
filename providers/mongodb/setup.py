@@ -5,7 +5,7 @@ with open("readme.md", "r") as fh:
 
 setup(
     name='liteflow.providers.mongo',
-    version='0.2',
+    version='0.3.1',
     description='MongoDB persistence provider for LiteFlow',
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -16,7 +16,7 @@ setup(
     packages=['liteflow.providers.mongo'],
     zip_safe=False,
     install_requires=[
-        'liteflow.core>=0.2',
+        'liteflow.core>=0.3',
         'pymongo>=3.6.1',
         'python-interface>=1.4.0'
     ],

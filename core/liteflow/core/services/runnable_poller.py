@@ -1,4 +1,3 @@
-import logging
 from threading import Thread, Event
 from interface import implements
 from datetime import datetime
@@ -7,13 +6,13 @@ from liteflow.core.abstractions import *
 
 class RunnablePoller(implements(IBackgroundService)):
 
-    def __init__(self, persistence_service: IPersistenceProvider, queue_service: IQueueProvider):
+    def __init__(self, persistence_service: IPersistenceProvider, queue_service: IQueueProvider, logger):
         self._queue_service = queue_service
         self._persistence_service = persistence_service
         self._thread = Thread(target=self.execute)
         self._active = False
         self._exit = Event()
-        self._logger = logging.getLogger(str(self.__class__))
+        self._logger = logger
 
     def start(self):
         self._active = True

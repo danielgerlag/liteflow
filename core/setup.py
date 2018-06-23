@@ -5,7 +5,7 @@ with open("readme.md", "r") as fh:
 
 setup(
     name='liteflow.core',
-    version='0.3',
+    version='0.3.1',
     description='Workflow library with pluggable persistence and scale out support',
     long_description=long_description,
     long_description_content_type="text/markdown",

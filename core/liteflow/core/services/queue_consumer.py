@@ -1,4 +1,3 @@
-import logging
 from abc import ABCMeta, ABC, abstractmethod
 from threading import Thread, Event
 from concurrent.futures import Executor
@@ -8,8 +7,8 @@ from liteflow.core.abstractions import IBackgroundService, IQueueProvider
 
 class QueueConsumer(ABC):
 
-    def __init__(self, queue_service: IQueueProvider, thread_pool: Executor, idle_time: float):
-        self._logger = logging.getLogger(str(self.__class__))
+    def __init__(self, queue_service: IQueueProvider, thread_pool: Executor, logger, idle_time: float):
+        self._logger = logger
         self._thread = Thread(target=self.execute)
         self._active = False
         self._exit = Event()

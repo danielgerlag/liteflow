@@ -1,5 +1,4 @@
 from datetime import datetime, timedelta
-import logging
 from interface import implements
 from liteflow.core.models import WorkflowInstance, WorkflowDefinition, ExecutionPointer, WorkflowStep, ExecutionResult,\
     WorkflowExecutorResult, EventSubscription
@@ -8,9 +7,9 @@ from liteflow.core.abstractions import IExecutionResultProcessor, IExecutionPoin
 
 class ExecutionResultProcessor(implements(IExecutionResultProcessor)):
 
-    def __init__(self, pointer_factory: IExecutionPointerFactory):
+    def __init__(self, pointer_factory: IExecutionPointerFactory, logger):
         self._pointer_factory = pointer_factory
-        self._logger = logging.getLogger(str(self.__class__))
+        self._logger = logger
 
     def process_execution_result(self, workflow: WorkflowInstance, definition: WorkflowDefinition, pointer: ExecutionPointer, step: WorkflowStep, result: ExecutionResult, workflow_result: WorkflowExecutorResult):
         pointer.persistence_data = result.persistence_data

@@ -12,7 +12,7 @@ class AzureLockProvider(implements(ILockProvider)):
     container_name = 'liteflow-locks'
 
     def __init__(self, account: CloudStorageAccount):
-        self._logger = logging.getLogger(str(self.__class__))
+        self._logger = logging.getLogger("liteflow.providers.azure")
         self._leases = {}
         self._service = account.create_block_blob_service()
         self._service.create_container(self.container_name, public_access=PublicAccess.Blob)

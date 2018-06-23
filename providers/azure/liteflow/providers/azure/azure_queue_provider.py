@@ -9,7 +9,7 @@ from liteflow.core.abstractions import IQueueProvider, EVENT_QUEUE, WORKFLOW_QUE
 class AzureQueueProvider(implements(IQueueProvider)):
 
     def __init__(self, account: CloudStorageAccount):
-        self._logger = logging.getLogger(str(self.__class__))
+        self._logger = logging.getLogger("liteflow.providers.azure")
         self._service = account.create_queue_service()
         self._queues: Dict[str] = {WORKFLOW_QUEUE: "workflow", EVENT_QUEUE: "event"}
         for queue in self._queues:

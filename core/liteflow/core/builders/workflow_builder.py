@@ -1,7 +1,7 @@
 from typing import List
 from typing import TypeVar, Generic
-from ..models import WorkflowStep, WorkflowDefinition
-from ..builders.step_builder import StepBuilder
+from liteflow.core.models import WorkflowStep, WorkflowDefinition
+from liteflow.core.builders.step_builder import StepBuilder
 
 TStep = TypeVar('T', WorkflowStep, WorkflowStep)
 

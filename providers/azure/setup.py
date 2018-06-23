@@ -5,7 +5,7 @@ with open("readme.md", "r") as fh:
 
 setup(
     name='liteflow.providers.azure',
-    version='0.2',
+    version='0.3.1',
     description='Azure queue and distributed lock providers for LiteFlow',
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -16,7 +16,7 @@ setup(
     packages=['liteflow.providers.azure'],
     zip_safe=False,
     install_requires=[
-        'liteflow.core>=0.2',
+        'liteflow.core>=0.3',
         'azure-storage-blob>=1.1.0',
         'azure-storage-queue>=1.1.0',
         'python-interface>=1.4.0'

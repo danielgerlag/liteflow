@@ -1,5 +1,5 @@
 import unittest
-from datetime import datetime
+import logging
 from typing import Callable
 from unittest.mock import MagicMock, Mock
 from liteflow.core.models import *
@@ -19,7 +19,7 @@ class WorkflowExecutorTestCase(unittest.TestCase):
     def setUp(self):
         self._execution_result_processor = Mock()
         self._registry = Mock()
-        self._subject = WorkflowExecutor(self._execution_result_processor, self._registry)
+        self._subject = WorkflowExecutor(self._execution_result_processor, self._registry, logging.root)
         MockStep.executions = []
 
     def test_execute_active_step(self):

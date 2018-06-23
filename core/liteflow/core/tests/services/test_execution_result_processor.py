@@ -1,4 +1,5 @@
 import unittest
+import logging
 from datetime import datetime
 from unittest.mock import MagicMock, Mock
 from liteflow.core.models import *
@@ -8,7 +9,7 @@ from liteflow.core.services import *
 class ProcessExecutionResultTestCase(unittest.TestCase):
     def setUp(self):
         self._pointer_factory = Mock()
-        self._subject = ExecutionResultProcessor(self._pointer_factory)
+        self._subject = ExecutionResultProcessor(self._pointer_factory, logging.root)
 
     def test_advance_workflow(self):
         definition = WorkflowDefinition()

@@ -203,7 +203,7 @@ The workflow host is the service responsible for executing workflows.  It does t
 
 #### Usage
 
-When your application starts, create a WorkflowHost service,  call *registerWorkflow*, so that the workflow host knows about all your workflows, and then call *start()* to fire up the event loop that executes workflows.  Use the *startWorkflow* method to initiate a new instance of a particular workflow.
+When your application starts, create a WorkflowHost service using `configure_workflow_host`,  call *register_workflow*, so that the workflow host knows about all your workflows, and then call *start* to fire up the event loop that executes workflows.  Use the *start_workflow* method to initiate a new instance of a particular workflow.
 
 
 ```python

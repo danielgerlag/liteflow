@@ -7,10 +7,10 @@ from liteflow.core.abstractions import *
 
 class WorkflowExecutor(implements(IWorkflowExecutor)):
 
-    def __init__(self, result_processor: IExecutionResultProcessor, registry: IWorkflowRegistry):
+    def __init__(self, result_processor: IExecutionResultProcessor, registry: IWorkflowRegistry, logger):
         self._registry = registry
         self._result_processor = result_processor
-        self._logger = logging.getLogger(str(self.__class__))
+        self._logger = logger
 
     def execute(self, workflow: WorkflowInstance) -> WorkflowExecutorResult:
         self._logger.log(logging.DEBUG, f"Executing workflow {workflow.id}")
@@ -21,7 +21,7 @@ class WorkflowExecutor(implements(IWorkflowExecutor)):
         definition = self._registry.get_definition(workflow.workflow_definition_id, workflow.version)
 
         if definition is None:
-            logging.log(logging.ERROR, "Workflow {0} version {1} is not registered".format(workflow.workflow_definition_id, workflow.version))
+            self._logger.log(logging.ERROR, "Workflow {0} version {1} is not registered".format(workflow.workflow_definition_id, workflow.version))
             return
 
         for pointer in exe_pointers:
@@ -32,7 +32,7 @@ class WorkflowExecutor(implements(IWorkflowExecutor)):
                     if pointer.start_time is None:
                         pointer.start_time = datetime.datetime.utcnow()
 
-                    logging.log(logging.DEBUG, "Starting step {0} on workflow {1}".format(step.name, workflow.id))
+                    self._logger.log(logging.DEBUG, "Starting step {0} on workflow {1}".format(step.name, workflow.id))
 
                     context = StepExecutionContext(workflow, step, pointer.persistence_data, pointer)
                     body: StepBody = step.body()
@@ -45,7 +45,7 @@ class WorkflowExecutor(implements(IWorkflowExecutor)):
                     self._result_processor.process_execution_result(workflow, definition, pointer, step, result, wf_result)
 
                 except Exception as err:
-                    logging.log(logging.ERROR, str(err))
+                    self._logger.log(logging.ERROR, str(err))
                     errEx = ExecutionError()
                     errEx.workflow_id = workflow.id
                     errEx.execution_pointer_id = pointer.id
@@ -54,7 +54,7 @@ class WorkflowExecutor(implements(IWorkflowExecutor)):
                     self._result_processor.handle_step_exception(workflow, definition,pointer, step)
 
             else:
-                logging.log(logging.ERROR, f"Unable to find step {pointer.step_id} in workflow definition")
+                self._logger.log(logging.ERROR, f"Unable to find step {pointer.step_id} in workflow definition")
                 pointer.sleep_until = datetime.datetime.utcnow() + datetime.timedelta(minutes=1) #TODO: make configurable
 
         #TODO: ProcessAfterExecutionIteration

@@ -1,4 +1,3 @@
-import logging
 from datetime import datetime
 from concurrent.futures import Executor
 from liteflow.core.services.queue_consumer import QueueConsumer
@@ -8,11 +7,10 @@ from liteflow.core.models import *
 
 class EventConsumer(QueueConsumer):
 
-    def __init__(self, persistence_service: IPersistenceProvider, queue_service: IQueueProvider, lock_service: ILockProvider, thread_pool: Executor, idle_time: float):
-        super(EventConsumer, self).__init__(queue_service, thread_pool, idle_time)
+    def __init__(self, persistence_service: IPersistenceProvider, queue_service: IQueueProvider, lock_service: ILockProvider, thread_pool: Executor, logger, idle_time: float):
+        super(EventConsumer, self).__init__(queue_service, thread_pool, logger, idle_time)
         self._lock_service = lock_service
         self._persistence_service = persistence_service
-        self._logger = logging.getLogger(str(self.__class__))
 
     def get_queue(self):
         return EVENT_QUEUE

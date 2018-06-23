@@ -1,4 +1,3 @@
-import logging
 from concurrent.futures import Executor
 from interface import implements
 from liteflow.core.services.queue_consumer import QueueConsumer
@@ -8,12 +7,11 @@ from liteflow.core.models import *
 
 class WorkflowConsumer(QueueConsumer):
 
-    def __init__(self, executor: IWorkflowExecutor, persistence_service: IPersistenceProvider, queue_service: IQueueProvider, lock_service: ILockProvider, thread_pool: Executor, idle_time: float):
-        super(WorkflowConsumer, self).__init__(queue_service, thread_pool, idle_time)
+    def __init__(self, executor: IWorkflowExecutor, persistence_service: IPersistenceProvider, queue_service: IQueueProvider, lock_service: ILockProvider, thread_pool: Executor, logger, idle_time: float):
+        super(WorkflowConsumer, self).__init__(queue_service, thread_pool, logger, idle_time)
         self._lock_service = lock_service
         self._persistence_service = persistence_service
         self._executor = executor
-        self._logger = logging.getLogger(str(self.__class__))
 
     def get_queue(self):
         return WORKFLOW_QUEUE
