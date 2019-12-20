@@ -1,15 +1,23 @@
+import time
 from liteflow.core import *
+from liteflow.providers.mongo import MongoPersistenceProvider
+
+
+# mongo = MongoPersistenceProvider('mongodb://localhost:27017/', 'liteflow')
 
 
 class Hello(StepBody):
     def run(self, context: StepExecutionContext) -> ExecutionResult:
-        print("Hello world")
+        print("Hello")
         return ExecutionResult.next()
 
 
-class Goodbye(StepBody):
+class PrintMessage(StepBody):
+    def __init__(self):
+        self.message = ""
+
     def run(self, context: StepExecutionContext) -> ExecutionResult:
-        print("Goodbye")
+        print(self.message)
         return ExecutionResult.next()
 
 
@@ -31,7 +39,8 @@ class MyWorkflow(Workflow):
             .start_with(Hello) \
             .wait_for('event1', lambda data, context: 'key1') \
                 .output('event_result', lambda step: step.event_data) \
-            .then(Goodbye)
+            .then(PrintMessage) \
+                .input('message', lambda data, context: "The response is %s" % data.event_result)
 
 
 host = configure_workflow_host()
@@ -40,7 +49,9 @@ host.start()
 
 wid = host.start_workflow("MyWorkflow", 1, MyData())
 
-event_data = input("Enter value to publish")
+time.sleep(1)
+
+event_data = input("Enter value to publish: ")
 
 host.publish_event('event1', 'key1', event_data)
 input()

@@ -24,6 +24,15 @@ class AddNumbers(StepBody):
         return ExecutionResult.next()
 
 
+class PrintMessage(StepBody):
+    def __init__(self):
+        self.message = ""
+
+    def run(self, context: StepExecutionContext) -> ExecutionResult:
+        print(self.message)
+        return ExecutionResult.next()
+
+
 class MyData:
     def __init__(self):
         self.value1 = 0
@@ -46,6 +55,8 @@ class MyWorkflow(Workflow):
                 .input('input1', lambda data, context: data.value1) \
                 .input('input2', lambda data, context: data.value2) \
                 .output('value3', lambda step: step.output) \
+            .then(PrintMessage) \
+                .input('message', lambda data, context: "The answer is %s" % data.value3) \
             .then(Goodbye)
 
 
