@@ -10,6 +10,9 @@ class IWorkflowHost(Interface):
     def start_workflow(self, workflow_id, version, data):
         pass
 
+    def stop_workflow(self, workflow_wid):
+        pass
+
     def publish_event(self, event_name, event_key, event_data=object(), effective_date=None):
         pass
 

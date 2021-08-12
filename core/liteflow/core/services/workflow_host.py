@@ -39,6 +39,10 @@ class WorkflowHost(implements(IWorkflowHost)):
 
         return workflow_id
 
+    def stop_workflow(self, workflow_wid):
+        workflow = self._persistence_service.get_workflow_instance(workflow_wid)
+        workflow.status = WorkflowInstance.COMPLETE
+
     def publish_event(self, event_name, event_key, event_data=object(), effective_date=None):
         self._logger.debug(f"Publishing event {event_name} {event_key}")
 
