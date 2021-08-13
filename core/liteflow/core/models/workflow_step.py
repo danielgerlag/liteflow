@@ -17,6 +17,8 @@ class WorkflowStep(Generic[T]):
         self.body = body
         self.name = None
         self.error_behavior = WorkflowStep.RETRY
+        self.error_max_retry = 0
+        self.error_retry_interval = 10
         self.outcomes: List[StepOutcome] = []
         self.children = []
         self.inputs: List[IOMapping] = []

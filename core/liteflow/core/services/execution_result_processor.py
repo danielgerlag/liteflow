@@ -54,7 +54,9 @@ class ExecutionResultProcessor(implements(IExecutionResultProcessor)):
 
         if step.error_behavior == WorkflowStep.RETRY:
             pointer.retry_count += 1
-            pointer.sleep_until = datetime.utcnow() + timedelta(seconds=10) #TODO: make confiurable
+            if step.error_max_retry != 0 and pointer.retry_count >= step.error_max_retry:
+                workflow.status = WorkflowInstance.TERMINATED
+            pointer.sleep_until = datetime.utcnow() + timedelta(seconds=step.error_retry_interval)
             step.prime_for_retry(pointer)
         elif step.error_behavior == WorkflowStep.SUSPEND:
             workflow.status = WorkflowInstance.SUSPENDED
