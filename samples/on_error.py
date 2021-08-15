@@ -34,7 +34,7 @@ class MyWorkflow(Workflow):
         builder\
             .start_with(Hello)\
             .then(Explode)\
-                .on_error(WorkflowStep.RETRY)\
+                .on_error(WorkflowStep.RETRY, error_max_retry=1, error_retry_interval=3)\
             .then(Goodbye)
 
 

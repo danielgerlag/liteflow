@@ -89,8 +89,10 @@ class StepBuilder(Generic[TStep]):
 
         return step_builder
 
-    def on_error(self, error_behavior):
+    def on_error(self, error_behavior, error_max_retry=0, error_retry_interval=10):
         self.step.error_behavior = error_behavior
+        self.step.error_max_retry = error_max_retry
+        self.step.error_retry_interval = error_retry_interval
         return self
 
     def do(self, builder: Callable):
